@@ -1,0 +1,3 @@
+psycopg2-binary
+Python 3.8.5
+Docker Compose v2.3.3
