@@ -1,0 +1,6 @@
+.env
+dbdata/
+logs/
+plugins/
+dags/__pycache__
+dags/local_data

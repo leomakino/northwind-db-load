@@ -155,8 +155,8 @@ try:
         database="northwind_data_analysis",
         user="admin",
         password="admin",
-        host="0.0.0.0",
-        port=5433
+        host="final_db",
+        port=5432
     )
 except:
     print("Connection to Postgres has failed \nPlease check the access credentials")
@@ -169,18 +169,18 @@ cur = conn.cursor()
 conn.autocommit = True
 
 # Get tables names
-postgre_table_names = os.listdir(f"../../local_data/postgres/")
-csv_table_name = os.listdir(f"../../local_data/csv/{date}/")
+postgre_table_names = os.listdir(f"../local_data/postgres/")
+csv_table_name = os.listdir(f"../local_data/csv/{date}/")
 
 # Database DML Initialization
 cur.execute(finaldb_init)
 
 # Import CSVs into PosgreSQL
 for table in postgre_table_names:
-    with open(f"../../local_data/postgres/{table}/{date}/{table}.csv", "r") as file:
+    with open(f"../local_data/postgres/{table}/{date}/{table}.csv", "r") as file:
         cur.copy_expert(f"COPY {table} FROM STDIN WITH CSV HEADER", file)
 
-with open(f"../../local_data/csv/{date}/{csv_table_name[0]}", "r") as file:
+with open(f"../local_data/csv/{date}/{csv_table_name[0]}", "r") as file:
     cur.copy_expert(
         f"COPY order_details FROM STDIN WITH CSV HEADER", file)
 

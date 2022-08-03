@@ -5,8 +5,8 @@ import os
 date = sys.argv[1]
 
 # Create directory if not exists
-os.makedirs(f"../../local_data/csv/{date}/", exist_ok=True)
+os.makedirs(f"../local_data/csv/{date}/", exist_ok=True)
 
 # Copy csv to local file system
 os.system(
-    f"cp ../../data/order_details.csv ../../local_data/csv/{date}/order_details.csv")
+    f"cp ../data/order_details.csv ../local_data/csv/{date}/order_details.csv")

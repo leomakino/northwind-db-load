@@ -11,12 +11,12 @@ try:
         database="northwind",
         user="northwind_user",
         password="thewindisblowing",
-        host="0.0.0.0",
-        port=5434
+        host="source_db",
+        port=5432
     )
-except:
+except Exception as err:
     print("Connection to Postgres has failed \nPlease check the access credentials")
-    exit()
+    conn = None
 
 # Open cursor to perform database operations
 cur = conn.cursor()
@@ -30,8 +30,8 @@ tables = [table[0] for table in cur.fetchall()]
 
 # Export all tables locally
 for table in tables:
-    os.makedirs(f"../../local_data/postgres/{table}/{date}/", exist_ok=True)
-    with open(f"../../local_data/postgres/{table}/{date}/{table}.csv", "w") as file:
+    os.makedirs(f"../local_data/postgres/{table}/{date}/", exist_ok=True)
+    with open(f"../local_data/postgres/{table}/{date}/{table}.csv", "w") as file:
         cur.copy_expert(
             f"""COPY {table} TO STDOUT WITH CSV HEADER""", file)
 

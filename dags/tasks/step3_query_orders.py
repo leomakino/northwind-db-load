@@ -25,8 +25,8 @@ try:
         database="northwind_data_analysis",
         user="admin",
         password="admin",
-        host="0.0.0.0",
-        port=5433
+        host="final_db",
+        port=5432
     )
 except:
     print("Connection to Postgres has failed \nPlease check the access credentials")
@@ -42,7 +42,7 @@ cur.execute(f"{order_and_details}")
 [print(row) for row in cur.fetchall()]
 
 # Export query as a CSV file
-with open("../../local_data/order_and_details.csv", "w") as file:
+with open("../local_data/order_and_details.csv", "w") as file:
     cur.copy_expert(
         f"COPY ({order_and_details}) TO STDOUT WITH CSV HEADER", file)
 

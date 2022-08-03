@@ -79,9 +79,44 @@ The step3_query_orders.py executes the following commands do it.
 4. export it as a CSV file.
 
 ## 4 - Schedule and dependencies
+It was used the Apache Airflow 2.3.3 to schedule and set dependencies of the pipeline. 
+The graph below represents the pipeline dependencies and cuncurrencies
+
+![pipeline-dag](https://user-images.githubusercontent.com/41583726/182637032-5df1e52d-5dea-42da-8995-2817366b6362.png)
+
+The step 1 tasks depends on the step 2. Also, step 3 depends on step 2.
+
+Finally, the schedule interval was set as @daily.
 
 
 
 # How to run
+Pre-requisites: 
+- Docker 20.10.17
+- Docker Compose 2.3.3
 
-## Pre-requisites
+```
+# clone repository
+git clone https://github.com/leomakino/northwind-db-load
+
+# Change directory to northwind-db-load
+cd northwind-db-load
+
+# Make directories
+mkdir -p ./logs ./plugins
+
+# Create .env if you are a linux user
+echo -e "AIRFLOW_UID=$(id -u)" > .env
+
+# Docker build
+docker build . --tag extending_airflow:latest
+
+# Initialize the database
+docker-compose up airflow-init
+
+# Start all the services
+docker compose up
+```
+
+# Author
+Leonardo Villela Makino https://www.linkedin.com/in/leonardo-makino-77a559185/

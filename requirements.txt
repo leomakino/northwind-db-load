@@ -1,3 +1,2 @@
-psycopg2-binary
-Python 3.8.5
-Docker Compose v2.3.3
+psycopg2-binary==2.9.3
+pendulum==2.1.2
