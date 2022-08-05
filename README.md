@@ -118,5 +118,92 @@ docker-compose up airflow-init
 docker compose up
 ```
 
+# How to check the results
+After setting up the containers, the next step is to get the results.
+The first step is to trigger the airflow dag to run the code. 
+Next, check if the data has been loaded into the final database and if the CSV file has been generated correctly.
+
+## Airflow
+Using the following bash code it is possible to check if:
+- the DAG is sucessfully created;
+- the dependencies between the tasks;
+- the tasks executions;
+- the schedule interval.
+
+```
+# Start a bash session on the airflow container
+docker exec -it northwind-db-load-airflow-triggerer-1 bash
+
+# List DAGs
+airflow dags list
+
+# Displays DAG's tasks with their dependencies
+airflow dags show pipeline-dag
+
+# If the pipeline-dag paused attribution is false
+# Then Unpause the DAG
+airflow dags unpause pipeline-dag
+
+# Trigger the DAG
+airflow dags trigger pipeline-dag
+
+# List DAG runs given a DAG id
+# Copy the execution_date
+airflow dags list-runs -d pipeline-dag
+
+# Get the status of a dag run
+airflow dags state pipeline-dag {execution_date}
+
+# Check the next execution
+airflow dags next-execution pipeline-dag
+
+# Exit the bash session
+exit
+```
+
+## Postgres final database
+Using the following bash code it is possible to check if:
+- the database is created;
+- the relations of the tables;
+- the data in any table.
+
+```
+# Start a bash session on the postgres container
+docker exec -ti northwind-db-load-final_db-1 bash
+
+# Login
+psql -U admin -d northwind_data_analysis
+
+# List of databases
+\l
+
+# List of relations
+\dt
+
+# Query data
+SELECT * FROM {table_name};
+
+# Exit the northwind_data_analysis database
+exit
+
+# Exit the bash session
+exit
+```
+
+## Exported csv
+Using the following bash code it is possible to check if:
+- the csv file is created;
+- the data in the CSV file.
+```
+# At northwind-db-load, change directory to dags
+cd dags/local_data
+
+# Check the number of line and prints the first 10 lines of the exported file
+wc -l order_and_details.csv && head order_and_details.csv
+
+# Print the content of the file
+cat order_and_details.csv
+```
+
 # Author
 Leonardo Villela Makino https://www.linkedin.com/in/leonardo-makino-77a559185/
