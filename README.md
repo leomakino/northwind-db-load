@@ -112,7 +112,7 @@ echo -e "AIRFLOW_UID=$(id -u)" > .env
 docker build . --tag extending_airflow:latest
 
 # Initialize the database
-docker-compose up airflow-init
+docker compose up airflow-init
 
 # Start all the services
 docker compose up
